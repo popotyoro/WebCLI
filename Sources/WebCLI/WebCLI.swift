@@ -1,3 +1,4 @@
-struct WebCLI {
-    var text = "Hello, World!"
+public struct WebCLI {
+    public var text = "Hello, World!"
+    public init() {}
 }
