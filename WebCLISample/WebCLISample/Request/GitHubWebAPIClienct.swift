@@ -38,4 +38,24 @@ enum GitHubWebAPIClient {
             }
         }
     }
+    
+    static func syncSend<Response: GitHubResponse>(request: GitHubWebRequest) -> GitHubReqestResult<Response> {
+        
+        let result = WebAPI.syncSend(request: request)
+        
+        switch result {
+        case .success(let response):
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let json = try? decoder.decode(Response.self, from: response.body) else {
+                return .failure(.parseError)
+            }
+            
+            return .success(json)
+            
+        case .failure(let error):
+            return .failure(.apiError(error: error))
+            
+        }
+    }
 }

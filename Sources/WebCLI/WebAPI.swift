@@ -8,6 +8,14 @@
 import Foundation
 
 public enum WebAPI {
+    
+    /// Sync Request Default Timeout
+    public static let defaultSyncRequestTimeout: Double = 60.0
+    
+    /// Async Request
+    /// - Parameters:
+    ///   - request: WebRequest
+    ///   - completion: Request Result
     public static func send(request: WebRequest, completion: @escaping (WebReqestResult) -> Void) {
         let urlRequest = request.createURLRequest()
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
@@ -25,6 +33,38 @@ public enum WebAPI {
         }
         
         task.resume()
+    }
+    
+    /// Sync Request
+    /// - Parameters:
+    ///   - request: WebRequest
+    ///   - timeout: Request timeout
+    /// - Returns: Request Result
+    public static func syncSend(request: WebRequest, timeout: Double = defaultSyncRequestTimeout) -> (WebReqestResult) {
+        let urlRequest = request.createURLRequest()
+        let semaphore = DispatchSemaphore(value: 0)
+        var result: WebReqestResult = .failure(.noResponse) // defaultはnoResponseにしておく
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+            defer {
+                semaphore.signal()
+            }
+            if let error = error {
+                result = .failure(.connectionError(error: error))
+                return
+            }
+            guard let data = data, let response = response as? HTTPURLResponse else {
+                result = .failure(.noResponse)
+                return
+            }
+            
+            result = .success(createWebResponse(data: data, response: response))
+        }
+        
+        task.resume()
+        _ = semaphore.wait(timeout: .now() + defaultSyncRequestTimeout)
+        
+        return result
     }
 }
 

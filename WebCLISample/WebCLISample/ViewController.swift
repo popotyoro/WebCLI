@@ -15,14 +15,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let repositoryRequest = GitHubRepositoryRequest()
         
-        GitHubWebAPIClient.send(request: repositoryRequest){ (result: Result<[GitHubRepository], GitHubAPIError>) in
-            switch result {
-            case .success(let response):
-                print(response)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        let result: Result<[GitHubRepository], GitHubAPIError> = GitHubWebAPIClient.syncSend(request: repositoryRequest)
+        print(result)
     }
 }
 
