@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum WebAPI {
-    static func send(request: WebRequest, completion: @escaping (WebReqestResult) -> Void) {
+public enum WebAPI {
+    public static func send(request: WebRequest, completion: @escaping (WebReqestResult) -> Void) {
         let urlRequest = request.createURLRequest()
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {

@@ -7,9 +7,9 @@
 
 import Foundation
 
-typealias WebReqestResult = Result<WebResponse, APIError>
+public typealias WebReqestResult = Result<WebResponse, APIError>
 
-enum HTTPStatus {
+public enum HTTPStatus {
     case ok
     
     init(statusCode: Int) {
@@ -22,13 +22,13 @@ enum HTTPStatus {
     }
 }
 
-enum APIError: Error {
+public enum APIError: Error {
     case parseError(error: Error)
     case noResponse
     case connectionError(error: Error)
 }
 
-typealias WebResponse = (
+public typealias WebResponse = (
     statusCode: HTTPStatus,
     headers: [String: String],
     body: Data

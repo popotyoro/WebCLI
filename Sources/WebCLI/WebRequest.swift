@@ -7,13 +7,12 @@
 
 import Foundation
 
-protocol WebRequest {
+public protocol WebRequest {
     var baseURL: URL { get }
     var path: String { get }
     var methodAndPayload: HTTPMethodAndPayload { get }
     var queryItems: [URLQueryItem]? { get }
     var headers: [String: String] { get }
-    var body: Data { get }
 }
 
 extension WebRequest {

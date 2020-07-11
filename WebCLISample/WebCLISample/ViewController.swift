@@ -13,8 +13,16 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let motyo = WebCLI()
-        print(motyo.text)
+        let repositoryRequest = GitHubRepositoryRequest()
+        
+        GitHubWebAPIClient.send(request: repositoryRequest){ (result: Result<[GitHubRepository], GitHubAPIError>) in
+            switch result {
+            case .success(let response):
+                print(response)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 

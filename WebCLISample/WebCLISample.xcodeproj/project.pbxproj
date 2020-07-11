@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		C415363824B74E8A0045F819 /* WebCLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C415363724B74E8A0045F819 /* WebCLI.framework */; };
 		C415363924B74E8A0045F819 /* WebCLI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C415363724B74E8A0045F819 /* WebCLI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C415364424B95AF90045F819 /* GitHubWebRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C415364324B95AF90045F819 /* GitHubWebRequest.swift */; };
+		C415364624B965910045F819 /* GitHubRepositoryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C415364524B965910045F819 /* GitHubRepositoryRequest.swift */; };
+		C415364A24B967BC0045F819 /* GitHubRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C415364924B967BC0045F819 /* GitHubRepository.swift */; };
+		C415364C24B968450045F819 /* GitHubOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C415364B24B968450045F819 /* GitHubOwner.swift */; };
+		C415364E24B96C230045F819 /* GitHubWebAPIClienct.swift in Sources */ = {isa = PBXBuildFile; fileRef = C415364D24B96C230045F819 /* GitHubWebAPIClienct.swift */; };
 		C4F35F1824B74C0900D663F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F35F1724B74C0900D663F0 /* AppDelegate.swift */; };
 		C4F35F1A24B74C0900D663F0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F35F1924B74C0900D663F0 /* SceneDelegate.swift */; };
 		C4F35F1C24B74C0900D663F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F35F1B24B74C0900D663F0 /* ViewController.swift */; };
@@ -53,6 +58,11 @@
 /* Begin PBXFileReference section */
 		C415363324B74E7A0045F819 /* WebCLI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebCLI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C415363724B74E8A0045F819 /* WebCLI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebCLI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C415364324B95AF90045F819 /* GitHubWebRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubWebRequest.swift; sourceTree = "<group>"; };
+		C415364524B965910045F819 /* GitHubRepositoryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubRepositoryRequest.swift; sourceTree = "<group>"; };
+		C415364924B967BC0045F819 /* GitHubRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubRepository.swift; sourceTree = "<group>"; };
+		C415364B24B968450045F819 /* GitHubOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubOwner.swift; sourceTree = "<group>"; };
+		C415364D24B96C230045F819 /* GitHubWebAPIClienct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubWebAPIClienct.swift; sourceTree = "<group>"; };
 		C4F35F1424B74C0900D663F0 /* WebCLISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebCLISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4F35F1724B74C0900D663F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4F35F1924B74C0900D663F0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +114,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C415364724B967940045F819 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				C415364524B965910045F819 /* GitHubRepositoryRequest.swift */,
+				C415364324B95AF90045F819 /* GitHubWebRequest.swift */,
+				C415364D24B96C230045F819 /* GitHubWebAPIClienct.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C415364824B9679A0045F819 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C415364924B967BC0045F819 /* GitHubRepository.swift */,
+				C415364B24B968450045F819 /* GitHubOwner.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		C4F35F0B24B74C0900D663F0 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +157,8 @@
 		C4F35F1624B74C0900D663F0 /* WebCLISample */ = {
 			isa = PBXGroup;
 			children = (
+				C415364824B9679A0045F819 /* Model */,
+				C415364724B967940045F819 /* Request */,
 				C4F35F1724B74C0900D663F0 /* AppDelegate.swift */,
 				C4F35F1924B74C0900D663F0 /* SceneDelegate.swift */,
 				C4F35F1B24B74C0900D663F0 /* ViewController.swift */,
@@ -289,9 +320,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C415364A24B967BC0045F819 /* GitHubRepository.swift in Sources */,
+				C415364E24B96C230045F819 /* GitHubWebAPIClienct.swift in Sources */,
 				C4F35F1C24B74C0900D663F0 /* ViewController.swift in Sources */,
 				C4F35F1824B74C0900D663F0 /* AppDelegate.swift in Sources */,
 				C4F35F1A24B74C0900D663F0 /* SceneDelegate.swift in Sources */,
+				C415364424B95AF90045F819 /* GitHubWebRequest.swift in Sources */,
+				C415364624B965910045F819 /* GitHubRepositoryRequest.swift in Sources */,
+				C415364C24B968450045F819 /* GitHubOwner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

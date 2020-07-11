@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HTTPMethodAndPayload {
+public enum HTTPMethodAndPayload {
     case get
     case post(payload: Data?)
     
