@@ -20,6 +20,6 @@ extension GitHubWebRequest {
         .get
     }
     var headers: [String : String] {
-      ["Authorization": "xxxxxxxxxx"]
+      ["Authorization": "XXXXXXXXXXX"]
     }
 }

@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  WebCLISample
+//  WebAPIClientSample
 //
-//  Created by popota on 2020/07/09.
+//  Created by popota on 2020/07/11.
 //  Copyright © 2020 Tagayasu. All rights reserved.
 //
 

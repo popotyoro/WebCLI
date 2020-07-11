@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:WebCLI.xcodeproj">
+      location = "group:WebAPIClientSample/WebAPIClientSample.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:WebCLISample/WebCLISample.xcodeproj">
+      location = "group:WebCLI.xcodeproj">
    </FileRef>
 </Workspace>
