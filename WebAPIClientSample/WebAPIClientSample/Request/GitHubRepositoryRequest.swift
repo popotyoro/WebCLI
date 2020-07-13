@@ -9,6 +9,8 @@
 import Foundation
 
 struct GitHubRepositoryRequest: GitHubWebRequest {
+    typealias Response = [GitHubRepository]
+    
     let path: String = "/users/popotyoro/repos"
     var queryItems: [URLQueryItem]? = nil
 }
