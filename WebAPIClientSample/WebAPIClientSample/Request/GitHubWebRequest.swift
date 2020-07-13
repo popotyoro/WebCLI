@@ -10,6 +10,7 @@ import Foundation
 import WebCLI
 
 protocol GitHubWebRequest: WebRequest {
+    associatedtype Response: GitHubResponse
 }
 
 extension GitHubWebRequest {

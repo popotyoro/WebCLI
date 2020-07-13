@@ -9,6 +9,7 @@
 import Foundation
 
 struct GitHubSearchRepositoryRequest: GitHubWebRequest {
+    typealias Response = GitHubSearchResponse<GitHubRepository>
     
     enum SearchRepositorySort: String {
         case stars

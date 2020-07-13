@@ -14,7 +14,7 @@ class SearchRepositoryViewModel: ObservableObject {
     
     func fetchRepository(with keyword: String) {
         let requet = GitHubSearchRepositoryRequest(keyword: keyword, sort: .stars)
-        GitHubWebAPIClient.send(request: requet) { (result: Result<GitHubSearchResponse<GitHubRepository>, GitHubAPIError>) in
+        GitHubWebAPIClient.send(request: requet) { (result) in
             switch result {
             case .success(let item):
                 DispatchQueue.main.async {
@@ -28,7 +28,7 @@ class SearchRepositoryViewModel: ObservableObject {
     
     func syncRepository(with keyword: String) {
         let requet = GitHubSearchRepositoryRequest(keyword: keyword, sort: .stars)
-        let result: Result<GitHubSearchResponse<GitHubRepository>, GitHubAPIError> = GitHubWebAPIClient.syncSend(request: requet)
+        let result = GitHubWebAPIClient.syncSend(request: requet)
         switch result {
         case .success(let item):
             DispatchQueue.main.async {

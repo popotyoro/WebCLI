@@ -19,13 +19,13 @@ enum GitHubAPIError: Error {
 
 enum GitHubWebAPIClient {
     
-    static func send<Response: GitHubResponse>(request: GitHubWebRequest, completion: @escaping (GitHubReqestResult<Response>) -> Void) {
+    static func send<Request: GitHubWebRequest>(request: Request, completion: @escaping (GitHubReqestResult<Request.Response>) -> Void) {
         WebAPI.send(request: request) { result in
             switch result {
             case .success(let response):
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                guard let json = try? decoder.decode(Response.self, from: response.body) else {
+                guard let json = try? decoder.decode(Request.Response.self, from: response.body) else {
                     completion(.failure(.parseError))
                     return
                 }
@@ -39,7 +39,7 @@ enum GitHubWebAPIClient {
         }
     }
     
-    static func syncSend<Response: GitHubResponse>(request: GitHubWebRequest) -> GitHubReqestResult<Response> {
+    static func syncSend<Request: GitHubWebRequest>(request: Request) -> GitHubReqestResult<Request.Response> {
         
         let result = WebAPI.syncSend(request: request)
         
@@ -47,7 +47,7 @@ enum GitHubWebAPIClient {
         case .success(let response):
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            guard let json = try? decoder.decode(Response.self, from: response.body) else {
+            guard let json = try? decoder.decode(Request.Response.self, from: response.body) else {
                 return .failure(.parseError)
             }
             
