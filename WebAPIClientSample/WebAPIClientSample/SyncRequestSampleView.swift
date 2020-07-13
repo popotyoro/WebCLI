@@ -8,9 +8,17 @@
 
 import SwiftUI
 
-struct SyncRequestSampleView: View {    
+struct SyncRequestSampleView: View {
+    @ObservedObject var viewModel: SearchRepositoryViewModel = SearchRepositoryViewModel()
+    
     var body: some View {
-        Text("Sync Request")
+        List(viewModel.repositories) { repository in
+            Text(repository.name)
+        }
+        .navigationBarTitle("SyncRequestSample")
+        .onAppear {
+            self.viewModel.syncRepository(with: "Rust")
+        }
     }
 }
 

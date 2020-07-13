@@ -9,9 +9,16 @@
 import SwiftUI
 
 struct AsyncRequestSampleView: View {
+    @ObservedObject var viewModel: SearchRepositoryViewModel = SearchRepositoryViewModel()
     
     var body: some View {
-        Text("Async Request")
+        List(viewModel.repositories) { repository in
+            Text(repository.name)
+        }
+        .navigationBarTitle("AsyncRequestSample")
+        .onAppear {
+            self.viewModel.fetchRepository(with: "Swift")
+        }
     }
 }
 
