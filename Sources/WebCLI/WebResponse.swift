@@ -15,7 +15,7 @@ public enum HTTPStatus {
     case redirect(code: Int)
     case clientError(code: Int)
     case serverError(code: Int)
-    case unknown
+    case unknown(code: Int)
     
     init(statusCode: Int) {
         switch statusCode {
@@ -30,7 +30,7 @@ public enum HTTPStatus {
         case 500...599:
             self = .serverError(code: statusCode)
         default:
-            self = .unknown
+            self = .unknown(code: statusCode)
         }
     }
 }
