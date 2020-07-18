@@ -66,6 +66,36 @@ public enum WebAPI {
         
         return result
     }
+    
+    public static func download(request: WebRequest,
+                                progress: @escaping ((Progress) -> Void),
+                                completion: @escaping (WebReqestResult) -> Void) {
+        let downloadURLSessionDelegate = DownloadURLSessionDelegate()
+        downloadURLSessionDelegate.downloadProgress = { _progress in
+            progress(_progress)
+        }
+        downloadURLSessionDelegate.downloadResult = {(response, url) in
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(.noResponse))
+                return
+            }
+            
+            do {
+                let data = try Data(contentsOf: url)
+                completion(.success(createWebResponse(data: data, response: response)))
+            } catch {
+                completion(.failure(.parseError(error: error)))
+            }
+        }
+        downloadURLSessionDelegate.downloadDidError = { error in
+            completion(.failure(.connectionError(error: error)))
+        }
+        
+        let urlSession = URLSession(configuration: .default, delegate: downloadURLSessionDelegate, delegateQueue: nil)
+        let downloadTask = urlSession.downloadTask(with: request.createURLRequest())
+        
+        downloadTask.resume()
+    }
 }
 
 private extension WebAPI {
