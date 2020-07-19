@@ -70,11 +70,16 @@ public enum WebAPI {
     public static func download(request: WebRequest,
                                 progress: @escaping ((Progress) -> Void),
                                 completion: @escaping (WebReqestResult) -> Void) {
+        
         let downloadURLSessionDelegate = DownloadURLSessionDelegate()
+        let urlSession = URLSession(configuration: .default, delegate: downloadURLSessionDelegate, delegateQueue: nil)
+        let downloadTask = urlSession.downloadTask(with: request.createURLRequest())
+        
         downloadURLSessionDelegate.downloadProgress = { _progress in
             progress(_progress)
         }
         downloadURLSessionDelegate.downloadResult = {(response, url) in
+            defer { urlSession.invalidateAndCancel() }
             guard let response = response as? HTTPURLResponse else {
                 completion(.failure(.noResponse))
                 return
@@ -88,11 +93,9 @@ public enum WebAPI {
             }
         }
         downloadURLSessionDelegate.downloadDidError = { error in
+            defer { urlSession.invalidateAndCancel() }
             completion(.failure(.connectionError(error: error)))
         }
-        
-        let urlSession = URLSession(configuration: .default, delegate: downloadURLSessionDelegate, delegateQueue: nil)
-        let downloadTask = urlSession.downloadTask(with: request.createURLRequest())
         
         downloadTask.resume()
     }
