@@ -67,9 +67,20 @@ public enum WebAPI {
         return result
     }
     
+    
+}
+
+protocol DownloadRequestable {
+    static func download(request: WebRequest,
+                         progress: @escaping ((Progress) -> Void),
+                         completion: @escaping (WebReqestResult) -> Void) -> URLSessionDownloadTask
+}
+
+extension WebAPI: DownloadRequestable {
+    @discardableResult
     public static func download(request: WebRequest,
                                 progress: @escaping ((Progress) -> Void),
-                                completion: @escaping (WebReqestResult) -> Void) {
+                                completion: @escaping (WebReqestResult) -> Void) -> URLSessionDownloadTask {
         
         let downloadURLSessionDelegate = DownloadURLSessionDelegate()
         let urlSession = URLSession(configuration: .default, delegate: downloadURLSessionDelegate, delegateQueue: nil)
@@ -98,6 +109,8 @@ public enum WebAPI {
         }
         
         downloadTask.resume()
+        
+        return downloadTask
     }
 }
 
