@@ -66,17 +66,31 @@ public enum WebAPI {
         
         return result
     }
-    
-    
 }
 
-protocol DownloadRequestable {
+protocol DownloadRequest {
+    
+    /// Download Request
+    /// - Parameters:
+    ///   - request: WebRequest
+    ///   - progress: Progress
+    ///   - completion: Request Result
     static func download(request: WebRequest,
+                         progress: @escaping ((Progress) -> Void),
+                         completion: @escaping (WebReqestResult) -> Void) -> URLSessionDownloadTask
+    
+    /// Download With Using ResumeData
+    /// - Parameters:
+    ///   - resumeData: ResumeData
+    ///   - progress: Progress
+    ///   - completion: Request Result
+    static func download(withResume resumeData: Data,
                          progress: @escaping ((Progress) -> Void),
                          completion: @escaping (WebReqestResult) -> Void) -> URLSessionDownloadTask
 }
 
-extension WebAPI: DownloadRequestable {
+extension WebAPI: DownloadRequest {
+    
     @discardableResult
     public static func download(request: WebRequest,
                                 progress: @escaping ((Progress) -> Void),
@@ -85,6 +99,53 @@ extension WebAPI: DownloadRequestable {
         let downloadURLSessionDelegate = DownloadURLSessionDelegate()
         let urlSession = URLSession(configuration: .default, delegate: downloadURLSessionDelegate, delegateQueue: nil)
         let downloadTask = urlSession.downloadTask(with: request.createURLRequest())
+        
+        requestDownload(downloadTask: downloadTask,
+                        downloadURLSessionDelegate: downloadURLSessionDelegate,
+                        urlSession: urlSession,
+                        progress: progress,
+                        completion: completion)
+        
+        return downloadTask
+    }
+    
+    @discardableResult
+    public static func download(withResume resumeData: Data,
+                         progress: @escaping ((Progress) -> Void),
+                         completion: @escaping (WebReqestResult) -> Void) -> URLSessionDownloadTask {
+        let downloadURLSessionDelegate = DownloadURLSessionDelegate()
+        let urlSession = URLSession(configuration: .default, delegate: downloadURLSessionDelegate, delegateQueue: nil)
+        let downloadTask = urlSession.downloadTask(withResumeData: resumeData)
+        
+        requestDownload(downloadTask: downloadTask,
+                        downloadURLSessionDelegate: downloadURLSessionDelegate,
+                        urlSession: urlSession,
+                        progress: progress,
+                        completion: completion)
+        
+        return downloadTask
+    }
+}
+
+private extension WebAPI {
+    static func createWebResponse(data: Data, response: HTTPURLResponse) -> WebResponse {
+        var headers: [String: String] = [:]
+        response.allHeaderFields.forEach { (key, value) in
+            headers[key.description] = String(describing: value)
+        }
+        
+        return WebResponse(
+            statusCode: HTTPStatus(statusCode: response.statusCode),
+            headers: headers,
+            body: data
+        )
+    }
+    
+    static func requestDownload(downloadTask: URLSessionDownloadTask,
+                                downloadURLSessionDelegate: DownloadURLSessionDelegate,
+                                urlSession: URLSession,
+                                progress: @escaping ((Progress) -> Void),
+                                completion: @escaping (WebReqestResult) -> Void) {
         
         downloadURLSessionDelegate.downloadProgress = { _progress in
             progress(_progress)
@@ -109,22 +170,5 @@ extension WebAPI: DownloadRequestable {
         }
         
         downloadTask.resume()
-        
-        return downloadTask
-    }
-}
-
-private extension WebAPI {
-    static func createWebResponse(data: Data, response: HTTPURLResponse) -> WebResponse {
-        var headers: [String: String] = [:]
-        response.allHeaderFields.forEach { (key, value) in
-            headers[key.description] = String(describing: value)
-        }
-        
-        return WebResponse(
-            statusCode: HTTPStatus(statusCode: response.statusCode),
-            headers: headers,
-            body: data
-        )
     }
 }
